@@ -1,4 +1,4 @@
-def main(filename):
+def process(filename):
 	elves = list()
 	total = 0
 	
@@ -11,12 +11,16 @@ def main(filename):
 				continue
 			total += int(line.strip())
 	f.close()
+	return sorted(elves, reverse=True)
 
-	elves = sorted(elves, reverse=True)
-	print(elves[0])
-	print(sum(elves[0:3]))
-	return
+def part1(elves):
+	return elves[0]
 
-filename = 'input.txt'
-# filename = 'small.txt'
-main(filename)
+def part2(elves):
+	return sum(elves[:3])
+
+# filename = "small.txt"
+filename = "input.txt"
+elves = process(filename)
+print(part1(elves)) #72511
+print(part2(elves)) #212117

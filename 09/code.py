@@ -94,8 +94,8 @@ def part2(grid):
     return len(tail_positions)
 
 # filename = "small.txt"
-# filename = "medium.txt"
-filename = "input.txt"
+filename = "medium.txt"
+# filename = "input.txt"
 grid = process(filename)
 print(part1(grid)) #6175
 print(part2(grid)) #2578

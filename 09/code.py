@@ -1,3 +1,5 @@
+import math
+
 def process(filename):
     grid = list()
     with open(filename) as f:
@@ -10,30 +12,18 @@ def process(filename):
     return grid
 
 def move_tail(head, tail):
-    if head == tail:
+    if head == tail or (abs(head[0] - tail[0]) == 1 and abs(head[1] - tail[1]) == 1) \
+                    or (head[0] == tail[0] and abs(head[1] - tail[1]) == 1) \
+                    or (head[1] == tail[1] and abs(head[0] - tail[0]) == 1):
         return tail, False
     elif head[0] == tail[0]: # same row
-        new_tail = head[1] - tail[1]
-        if abs(new_tail) == 1:
-            return tail, False
-        elif new_tail > 0:
-            new_tail = tail[1] + 1
-        else:
-            new_tail = tail[1] - 1
+        new_tail = tail[1] + math.copysign(1, head[1] - tail[1])
         tail = (tail[0], new_tail)
     elif head[1] == tail[1]: # same column
-        new_tail = head[0] - tail[0]
-        if abs(new_tail) == 1:
-            return tail, False
-        elif new_tail > 0:
-            new_tail = tail[0] + 1
-        else:
-            new_tail = tail[0] - 1
+        new_tail = tail[0] + math.copysign(1, head[0] - tail[0])
         tail = (new_tail, tail[1])
     else:
-        if abs(head[0] - tail[0]) == 1 and abs(head[1] - tail[1]) == 1:
-            return tail, False
-        elif head[0] > tail[0] and head[1] > tail[1]: #UR
+        if head[0] > tail[0] and head[1] > tail[1]: #UR
             tail = (tail[0] + 1, tail[1] + 1)
         elif head[0] > tail[0] and head[1] < tail[1]: #DR
             tail = (tail[0] + 1, tail[1] - 1)
@@ -45,7 +35,7 @@ def move_tail(head, tail):
 
 def inner(grid, knots):
     cur_head = [(0,0)] * knots
-    tail_positions = {cur_head[knots - 1]}
+    tails = {cur_head[knots - 1]}
     flag = True
     for i in grid:
         direction, steps = i[0], i[1]
@@ -61,16 +51,14 @@ def inner(grid, knots):
                         cur_head[k] = (cur_head[k][0], cur_head[k][1]+1)
                     elif direction == "D":
                         cur_head[k] = (cur_head[k][0], cur_head[k][1]-1)
-                    k += 1
                 else:
                     cur_head[k], flag = move_tail(cur_head[k-1], cur_head[k])
                     if k == knots - 1:
-                        tail_positions.add(cur_head[k]) ###
+                        tails.add(cur_head[k])
                     if not flag:
                         k = knots
-                    else:
-                        k += 1
-    return len(tail_positions)
+                k += 1
+    return len(tails)
 
 def part1(grid):
     return inner(grid, 2)

@@ -1,5 +1,3 @@
-KNOTS = 10
-
 def process(filename):
     grid = list()
     with open(filename) as f:
@@ -45,34 +43,15 @@ def move_tail(head, tail):
             tail = (tail[0] - 1, tail[1] - 1)
     return tail, True
 
-def part1(grid):
-    cur_head = (0,0)
-    cur_tail = (0,0)
-    tail_positions = {cur_tail}
-    for i in grid:
-        direction, steps = i[0], i[1]
-        for j in range(steps):
-            if direction == "R":
-                cur_head = (cur_head[0]+1, cur_head[1])
-            elif direction == "L":
-                cur_head = (cur_head[0]-1, cur_head[1])
-            elif direction == "U":
-                cur_head = (cur_head[0], cur_head[1]+1)
-            elif direction == "D":
-                cur_head = (cur_head[0], cur_head[1]-1)
-            cur_tail, _ = move_tail(cur_head, cur_tail)
-            tail_positions.add(cur_tail)
-    return len(tail_positions)
-
-def part2(grid):
-    cur_head = [(0,0)] * KNOTS
-    tail_positions = {cur_head[KNOTS - 1]}
+def inner(grid, knots):
+    cur_head = [(0,0)] * knots
+    tail_positions = {cur_head[knots - 1]}
     flag = True
     for i in grid:
         direction, steps = i[0], i[1]
         for j in range(steps):
             k = 0
-            while k < KNOTS:
+            while k < knots:
                 if k == 0:
                     if direction == "R":
                         cur_head[k] = (cur_head[k][0]+1, cur_head[k][1])
@@ -85,17 +64,23 @@ def part2(grid):
                     k += 1
                 else:
                     cur_head[k], flag = move_tail(cur_head[k-1], cur_head[k])
-                    if k == KNOTS - 1:
+                    if k == knots - 1:
                         tail_positions.add(cur_head[k]) ###
                     if not flag:
-                        k = KNOTS
+                        k = knots
                     else:
                         k += 1
     return len(tail_positions)
 
+def part1(grid):
+    return inner(grid, 2)
+
+def part2(grid):
+    return inner(grid, 10)
+
 # filename = "small.txt"
-filename = "medium.txt"
-# filename = "input.txt"
+# filename = "medium.txt"
+filename = "input.txt"
 grid = process(filename)
 print(part1(grid)) #6175
 print(part2(grid)) #2578

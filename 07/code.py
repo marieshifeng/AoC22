@@ -59,6 +59,7 @@ def inner(files, out, start, limit):
             total += size
     if total <= limit:
         out.append(total)
+    out.sort()
     return total, out
 
 def part1(files):

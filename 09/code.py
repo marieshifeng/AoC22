@@ -17,10 +17,10 @@ def move_tail(head, tail):
                     or (head[1] == tail[1] and abs(head[0] - tail[0]) == 1):
         return tail, False
     elif head[0] == tail[0]: # same row
-        new_tail = tail[1] + math.copysign(1, head[1] - tail[1])
+        new_tail = tail[1] + int(math.copysign(1, head[1] - tail[1]))
         tail = (tail[0], new_tail)
     elif head[1] == tail[1]: # same column
-        new_tail = tail[0] + math.copysign(1, head[0] - tail[0])
+        new_tail = tail[0] + int(math.copysign(1, head[0] - tail[0]))
         tail = (new_tail, tail[1])
     else:
         if head[0] > tail[0] and head[1] > tail[1]: #UR
@@ -55,6 +55,7 @@ def inner(grid, knots):
                     cur_head[k], flag = move_tail(cur_head[k-1], cur_head[k])
                     if k == knots - 1:
                         tails.add(cur_head[k])
+                        print(tails)
                     if not flag:
                         k = knots
                 k += 1

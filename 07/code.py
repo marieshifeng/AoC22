@@ -75,8 +75,8 @@ def part2(files):
         if o > needed:
             return o
 
-# filename = "small.txt"
-filename = "input.txt"
+filename = "small.txt"
+# filename = "input.txt"
 files = process(filename)
 print(part1(files)) #1642503
 print(part2(files)) #6999588

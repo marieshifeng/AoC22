@@ -15,7 +15,7 @@ def process(filename):
                     items.append(item)
                 queue.append(items)
             elif i%7 == 2:
-                operation = [line[-2], "old"] if line[-1] == "old" else [line[-2], int(line[-1])]
+                operation = [line[-2], line[-1]] if line[-1] == "old" else [line[-2], int(line[-1])]
                 monkey.append(operation)
             elif 3 <= i%7 <= 5:
                 monkey.append(int(line[-1]))

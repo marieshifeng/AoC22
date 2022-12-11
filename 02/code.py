@@ -1,13 +1,6 @@
 def part1(filename):
 	elves = list()
 	total = 0
-
-	A = 'A' #rock
-	B = 'B' #paper
-	C = 'C' #scissors	
-	X = 'X' #rock
-	Y = 'Y' #paper
-	Z = 'Z' #scissors
 	codes = {'X':1, 'Y': 2, 'Z': 3}
 	
 	with open(filename) as f:
@@ -42,14 +35,7 @@ def part1(filename):
 def part2(filename):
 	elves = list()
 	total = 0
-
-	A = 'A' #rock
-	B = 'B' #paper
-	C = 'C' #scissors
-	X = 'X' #lose
-	Y = 'Y' #draw
-	Z = 'Z' #win
-	codes = {'X':0, 'Y': 3, 'Z': 6}
+	codes = {'X': 0, 'Y': 3, 'Z': 6}
 	
 	with open(filename) as f:
 		lines = f.readlines()

@@ -1,7 +1,6 @@
 def process(filename):
 	elves = list()
 	total = 0
-	
 	with open(filename) as f:
 		lines = f.readlines()
 		for i,line in enumerate(lines):

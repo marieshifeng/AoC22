@@ -55,7 +55,6 @@ def inner(grid, knots):
                     cur_head[k], flag = move_tail(cur_head[k-1], cur_head[k])
                     if k == knots - 1:
                         tails.add(cur_head[k])
-                        print(cur_head[k-1], cur_head[k])
                     if not flag:
                         k = knots
                 k += 1

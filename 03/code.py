@@ -18,7 +18,6 @@ def part2(filename):
 	total = 0
 	counter = 0
 	cache = list()
-
 	with open(filename) as f:
 		lines = f.readlines()
 		for line in lines:
@@ -30,10 +29,7 @@ def part2(filename):
 	    letter = cache[counter] & cache[counter+1] & cache[counter+2]
 	    letter = letter.pop()
 	    counter += 3
-	    if letter.isupper():
-	        val = ord(letter) - ord('A') + 27
-	    else:
-	        val = ord(letter) - ord('a') + 1
+	    val = ord(letter) - ord('A') + 27 if letter.isupper() else ord(letter) - ord('a') + 1
 	    total += val
 	return total
 

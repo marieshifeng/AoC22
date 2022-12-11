@@ -10,36 +10,7 @@
  1   2   3   4   5   6   7   8   9 
 '''
 
-def part1(filename):
-    crates = [
-        ['L','N','W','T','D'],
-        ['C','P','H'],
-        ['W','P','H','N','D','G','M','J'],
-        ['C','W','S','N','T','Q','L'],
-        ['P','H','C','N'],
-        ['T','H','N','D','M','W','Q','B'],
-        ['M','B','R','J','G','S','L'],
-        ['Z','N','W','G','V','B','R','T'],
-        ['W','G','D','N','P','L'],
-    ]
-    count = 0
-    with open(filename) as f:
-        lines = f.readlines()
-        for line in lines:
-            line = line.split()
-            num_, from_, to_ = int(line[1]), int(line[3])-1, int(line[5])-1
-            temp = list()
-            for i in range(num_):
-                thing = crates[from_].pop()
-                crates[to_].append(thing)
-        out = ""
-
-        for i in range(len(crates)):
-            out += crates[i][-1]
-    f.close()
-    return out
-
-def part2(filename):
+def inner(filename, is_reverse):
     crates = [
         ['L','N','W','T','D'],
         ['C','P','H'],
@@ -61,13 +32,20 @@ def part2(filename):
             for i in range(num_):
                 thing = crates[from_].pop()
                 temp.append(thing)
-            temp.reverse()
+            if is_reverse:
+                temp.reverse()
             crates[to_].extend(temp)
         out = ""
         for i in range(len(crates)):
             out += crates[i][-1]
     f.close()
     return out
+
+def part1(filename):
+    return inner(filename, False)
+
+def part2(filename):
+    return inner(filename, True)
 
 filename = "input.txt"
 print(part1(filename)) #TWSGQHNHL

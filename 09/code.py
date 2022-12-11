@@ -55,7 +55,6 @@ def inner(grid, knots):
                     cur_head[k], flag = move_tail(cur_head[k-1], cur_head[k])
                     if k == knots - 1:
                         tails.add(cur_head[k])
-                        print(tails)
                     if not flag:
                         k = knots
                 k += 1
@@ -68,8 +67,8 @@ def part2(grid):
     return inner(grid, 10)
 
 # filename = "small.txt"
-# filename = "medium.txt"
-filename = "input.txt"
+filename = "medium.txt"
+# filename = "input.txt"
 grid = process(filename)
 print(part1(grid)) #6175
 print(part2(grid)) #2578

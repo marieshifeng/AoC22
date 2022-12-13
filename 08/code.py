@@ -72,8 +72,8 @@ def part2(files):
             out.append(num_trees_seen(grid, r, c))
     return max(out)
 
-# filename = "small.txt"
-filename = "input.txt"
+filename = "small.txt"
+# filename = "input.txt"
 grid = process(filename)
 print(part1(grid)) #1695
 print(part2(grid)) #287040

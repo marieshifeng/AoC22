@@ -1,63 +1,3 @@
-import math
-
-def process1(filename):
-    grid = list()
-    s, e = tuple(), tuple()
-    with open(filename) as f:
-        lines = f.readlines()
-        for i, line in enumerate(lines):
-            row = list()
-            for j, char in enumerate(line):
-                if char == "\n":
-                    continue
-                if char == "S":
-                    s = (i, j)
-                    row.append("a")
-                elif char == "E":
-                    e = (i, j)
-                    row.append(char)
-                else:
-                    row.append(char)
-            grid.append(row)
-    f.close()
-    return grid, s, e
-
-def process2(filename):
-    grid = list()
-    s, e = list(), tuple()
-    with open(filename) as f:
-        lines = f.readlines()
-        for i, line in enumerate(lines):
-            row = list()
-            for j, char in enumerate(line):
-                if char == "\n":
-                    continue
-                if char == "S" or char == "a":
-                    s.append((i, j))
-                    row.append("a")
-                elif char == "E":
-                    e = (i, j)
-                    row.append(char)
-                else:
-                    row.append(char)
-            grid.append(row)
-    f.close()
-    return grid, s, e
-
-def next_steps(cur, R, C, grid):
-    deltas = [(-1, 0),(1, 0),(0, -1),(0, 1)]
-    out = list()
-    for d in deltas:
-        o = (cur[0] + d[0], cur[1] + d[1])
-        if 0 <= o[0] < R and 0 <= o[1] < C:
-            if grid[o[0]][o[1]] == "E":
-                if ord("z") - ord(grid[cur[0]][cur[1]]) <= 1:
-                    out.append(o)
-            else:
-                if ord(grid[o[0]][o[1]]) - ord(grid[cur[0]][cur[1]]) <= 1:
-                    out.append(o)
-    return out
-
 def pretty_print(out):
     for r in range(len(out)):
         row = ""
@@ -67,7 +7,38 @@ def pretty_print(out):
     print()
     return
 
-def part1(grid, s, e):
+def next_steps(cur, R, C, grid):
+    deltas = [(-1, 0),(1, 0),(0, -1),(0, 1)]
+    out = list()
+    for d in deltas:
+        o = (cur[0] + d[0], cur[1] + d[1])
+        if 0 <= o[0] < R and 0 <= o[1] < C:
+            o_char = "z" if grid[o[0]][o[1]] == "E" else grid[o[0]][o[1]]
+            if ord(o_char) - ord(grid[cur[0]][cur[1]]) <= 1:
+                out.append(o)
+    return out
+
+def process(filename, is_all):
+    grid = list()
+    s, e = list(), tuple()
+    with open(filename) as f:
+        lines = f.readlines()
+        for i, line in enumerate(lines):
+            row = list()
+            for j, char in enumerate(line):
+                if char == "\n":
+                    continue
+                if char == "S" or (is_all and char == "a"):
+                    s.append((i, j))
+                    char = "a"
+                elif char == "E":
+                    e = (i, j)
+                row.append(char)
+            grid.append(row)
+    f.close()
+    return grid, s, e
+
+def inner(grid, s, e):
     R, C = len(grid), len(grid[0])
     log = [[0] * C for _ in range(R)]
     queue = [s]
@@ -84,15 +55,15 @@ def part1(grid, s, e):
             # pretty_print(log)
     return
 
-def part2(grid, starts, e):
+def outer(grid, starts, end):
     out = list()
-    for s in starts:
-        o = part1(grid, s, e)
+    for start in starts:
+        o = inner(grid, start, end)
         if o:
             out.append(o)
     return min(out)
 
 # filename = "small.txt"
 filename = "input.txt"
-print(part1(*process1(filename))) #425
-print(part2(*process2(filename))) #418
+print(outer(*process(filename, False))) #425
+print(outer(*process(filename, True))) #418

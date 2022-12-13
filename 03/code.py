@@ -33,6 +33,7 @@ def part2(filename):
 	    total += val
 	return total
 
+# filename = "small.txt"
 filename = "input.txt"
 print(part1(filename)) #7821
 print(part2(filename)) #2752

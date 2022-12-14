@@ -58,6 +58,7 @@ def num_trees_seen(grid, r, c):
     return (left * right * up * down)
 
 def part1(grid):
+    print(grid)
     count = len(grid) * 2 + (len(grid[0]) - 2) * 2
     for r in range(1, len(grid) - 1):
         for c in range(1, len(grid[0]) - 1):

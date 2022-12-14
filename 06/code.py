@@ -1,5 +1,6 @@
 LEN_SOP = 4
 LEN_SOM = 14
+
 def process(filename, len_marker):
     count = 0
     cache = ""

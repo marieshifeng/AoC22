@@ -9,7 +9,7 @@ def pretty_print(rocks, sands = dict()):
         out = ""
         for x in range(MIN_X, MAX_X + 1):
             if y in rocks[x]:
-                if (x,y) == START:
+                if (x, y) == START:
                     out += "+ "
                 else:
                     out += "# "
@@ -91,8 +91,8 @@ def part1(rocks):
 def part2(rocks):
     global MAX_Y
     MAX_Y += 2
-    start = (START[0] - (MAX_Y * 2 + 2)//2 , MAX_Y)
-    end = (START[0] + (MAX_Y * 2 + 2)//2 , MAX_Y)
+    start = (START[0] - (MAX_Y * 2)//2 , MAX_Y)
+    end = (START[0] + (MAX_Y * 2)//2 , MAX_Y)
     for step in get_path(start, end):
         rocks.setdefault(step[0], set()).add(step[1])
         update_bounds(step)

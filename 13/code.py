@@ -29,21 +29,58 @@ def is_right_order(l, r):
     else:
         return 1
 
+def ints(packet):
+    return [int(i) for i in packet if i]
+
+def tokenizer(string):
+    buffer = ""
+    quote = True
+    for c in string:
+        if c == "[":
+            yield ("LIST_OPEN", None)
+        elif c == "]":
+            if buffer:
+                yield ("LIST_CLOSE", int(buffer))
+                buffer = ""
+            else:
+                yield ("LIST_CLOSE", None)
+        elif c == ",":
+            if buffer:
+                yield ("VALUE", int(buffer))
+                buffer = ""
+        else:
+            buffer += c
+
+def parser(tokens):
+    lst = []
+    for token in tokens:
+        x, y = token
+        if x == "LIST_OPEN":
+            lst.append(parser(tokens))
+        elif x == "LIST_CLOSE":
+            if y:
+                lst.append(y)
+            return lst
+        elif x == "VALUE":
+            lst.append(y)
+    return lst[0]
+
 def part1(filename):
     out = list()
     with open(filename) as f:
         lines = f.read().strip()
         lines = lines.split("\n\n")
-        packets_pairs = []
         packets_all = []
         for x in lines:
             l, r = x.split("\n")
-            packets_pairs.append((eval(l),eval(r)))
-            packets_all.append(eval(l))
-            packets_all.append(eval(r))
-        for i, (l, r) in enumerate(packets_pairs):
-            if is_right_order(l, r) == -1:
-                out.append(i + 1)
+            #Inspiration: https://stackoverflow.com/questions/61936597/convert-string-representation-of-list-of-lists-to-list-of-list-python-without-ev
+            packets_all.append(parser(tokenizer(l)))
+            packets_all.append(parser(tokenizer(r)))
+            # packets_all.append(eval(l))
+            # packets_all.append(eval(r))
+        for i in range(0, len(packets_all), 2):
+            if is_right_order(packets_all[i], packets_all[i+1]) == -1:
+                out.append(i//2+1)
     f.close()
     return packets_all, sum(out)
 
